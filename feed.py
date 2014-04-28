@@ -32,7 +32,12 @@ def get_notice_list():
     url = 'http://www.chnmuseum.cn/Default.aspx?TabId=71&MoreModuleID=649&MoreTabID=124'
     base = 'http://www.chnmuseum.cn/'
     agent = {'User-Agent':'Mozilla/5.0'}
-    html = requests.get(url, headers=agent).text
+    html = None
+    try:
+        html = requests.get(url, headers=agent, timeout=5).text
+    except:
+        print('fail to access {}'.format(url))
+        return []
     soup = BeautifulSoup(html)
     table = soup.find(id='ess_ctr439_ListC_Info_LstC_Info')
     rows = table.find_all('table')
